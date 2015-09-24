@@ -6,6 +6,7 @@
 #include <math.h>
 #include <vector>
 #include <fstream>
+#include <locale>
 #include <iostream>
 using namespace std;
 
@@ -17,14 +18,18 @@ class Matrix
 {
 private:
 	int n;
+	int col;
 	vector< vector<real> > matrix;
+	vector<real> F;
 public:
 	Matrix(int x);
 	Matrix(void);
 	~Matrix(void);
-	void setMatrix(vector< vector<real> > A, int x);
-	void ToProf(MatrixProf &A);
-	void Gauss(vector<real> *X, vector<real> B)
+	void getCol();
+	void setMatrix(vector< vector<real> > A, int x, vector<real> B);
+	void ToProf(MatrixProf *A);
+	vector<real> Gauss(vector<real> B);
+	void Gilbert();
 };
 
 class MatrixProf
@@ -42,12 +47,13 @@ public:
 	MatrixProf(void);
 	MatrixProf(int x, int c);
 	~MatrixProf(void);
-	void load (ifstream &size, ifstream &matrix, ifstream &vect);
+	void load (ifstream &matrix, ifstream &vect);
 	void save (ofstream &output);
 	void LUDec();
 	vector<dubl> Direct();
-	void Reverse(vector<real> F, vector<real> *X);
+	vector<dubl> Reverse(vector<dubl> F);
 	void ToTight(Matrix *A);
+	vector<dubl> SLAU();
 };
 
 

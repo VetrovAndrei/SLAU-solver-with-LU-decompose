@@ -4,29 +4,16 @@
 Matrix::Matrix(int x)
 {
 	this->n = x;
-	for (int i = 0; i < n; i++)
-	{
-		vector<real> buf;
-		for (int j = 0; j < n; j++)
-			buf.push_back(0);
-		matrix.push_back(buf);
-	}
+	col = 0;
+	matrix.resize(n);
+	F.resize(n);
 }
 
-void Matrix::setMatrix(vector< vector<real> > A, int x)
+void Matrix::setMatrix(vector< vector<real> > A, int x, vector<real> B)
 {
 	n = x;
-	for (int i = 0; i < n; i++)
-	{
-		vector<real> buf;
-		real b;
-		for (int j = 0; j < n; j++)
-		{
-			b = A[i][j];
-			buf.push_back(b);
-		}
-		matrix.push_back(buf);
-	}
+	matrix = A;
+	F = B;
 }
 
 Matrix::Matrix(void)
@@ -38,11 +25,9 @@ Matrix::~Matrix(void)
 {
 }
 
-void Matrix::Gauss(vector<real> *X, vector<real> B)
+vector<real> Matrix::Gauss( vector<real> B)
 {
-	vector<dubl> bufer;
-	for(int i = 0; i < n; i++)
-		bufer.push_back(0);
+	
 	for (int i = 1; i<n; i++)
 		for (int j=i; j<n; j++)
 		{
@@ -51,14 +36,66 @@ void Matrix::Gauss(vector<real> *X, vector<real> B)
 				matrix[j][k]=matrix[j][k]-m*matrix[i-1][k];
 			B[j] = B[j] - m * B[i-1]; 
 		}
-	for (int i=n-1; i>=0; i--)
+	for (int i = n-1; i >= 0; i--)
 		{
+			dubl buf = 0;
 			for (int j = i+1; j < n; j++)
 			{
-				bufer[i] -= matrix[i][j]*bufer[j];
+				buf += matrix[i][j]*B[j];
 			}
-			bufer[i] = bufer[i]/matrix[i][i];
+			B[i] = B[i] - buf;
+			B[i] = B[i]/matrix[i][i];
 		}
-	for(int i = 0; i < n; i++)
-		X->push_back(bufer[i]);
+	return B;
 }
+
+void Matrix::Gilbert()
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; i < n; j++)
+			matrix[i][j] = 1.0/(i+j+1);
+}
+
+void Matrix::ToProf(MatrixProf *A)
+{
+	getCol();
+	vector <real> bdi(n);
+	vector <int> bia(n+1);
+	vector <real> bau(col);
+	vector <real> bal(col);
+	int s = 0;
+	int flag;
+	for (int i = 0; i < n; i++)
+	{
+		bdi[i] = matrix[i][i];
+		bia[i] = s;
+		flag = 0;
+		for (int j = 0; j < i; j++)
+		{
+			if (matrix[i][j] != 0 || matrix[j][i] != 0)
+			{
+				flag = 1;
+			}
+			if (flag == 1)
+			{
+				bau[s] = matrix[i][j];
+				bal[s] = matrix[j][i];
+				s++;
+			}
+		}
+	}
+	bia[n] = s;
+
+}
+
+
+void Matrix::getCol()
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < i; j++)
+		{
+			if (matrix[i][j] != 0 || matrix[j][i] != 0)
+				col++;
+		}
+}
+

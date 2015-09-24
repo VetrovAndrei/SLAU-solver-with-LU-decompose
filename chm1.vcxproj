@@ -81,8 +81,14 @@
     <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MatrixProf.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="matrix.txt" />
+    <Text Include="size.txt" />
+    <Text Include="vector.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

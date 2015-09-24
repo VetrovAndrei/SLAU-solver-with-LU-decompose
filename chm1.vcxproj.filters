@@ -26,5 +26,19 @@
     <ClCompile Include="MatrixProf.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="size.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="matrix.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="vector.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

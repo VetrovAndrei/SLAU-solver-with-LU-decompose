@@ -5,22 +5,17 @@ MatrixProf::MatrixProf(void)
 {
 	n = 0;
 	col = 0;
-	vector<real> di(n);
-	vector<int> ia(n+1);
-	vector<real> al(col);
-	vector<real> au(col);
-	vector<real> F(n);
 }
 
 MatrixProf::MatrixProf(int x, int c)
 {
 	n = x;
 	col = c;
-	vector<real> di(n);
-	vector<int> ia(n+1);
-	vector<real> al(col);
-	vector<real> au(col);
-	vector<real> F(n);
+	di.resize(n);
+	ia.resize(n+1);
+	al.resize(col);
+	au.resize(col);
+	F.resize(n);
 }
 
 
@@ -28,9 +23,8 @@ MatrixProf::~MatrixProf(void)
 {
 }
 
-void MatrixProf::load(ifstream &size, ifstream &matrix, ifstream &vect)
-{
-	size >> n >> col;	
+void MatrixProf::load(ifstream &matrix, ifstream &vect)
+{	
 	for( int i = 0; i < n+1; i++)
 	{
 		matrix >> ia[i];
@@ -82,13 +76,11 @@ void MatrixProf::LUDec()
 
 void MatrixProf::ToTight(Matrix *A)
 {
-	vector< vector< real > > B;
+	vector< vector< real > > B(n);
 	for (int i = 0; i < n; i++)
 	{
-		vector<real> buf;
-		for (int j = 0; j < n; j++)
-			buf.push_back(0);
-		B.push_back(buf);
+		vector<real> buf(n);
+		B[i] = buf;;
 	}
 	for(int i = 0; i < n; i++)
 	{
@@ -100,8 +92,7 @@ void MatrixProf::ToTight(Matrix *A)
 		}
 		B[i][i] = di[i];
 	}
-	A->setMatrix(B,n);
-
+	A->setMatrix(B, n, F);
 }
 
 vector<dubl> MatrixProf::Direct()
@@ -119,18 +110,26 @@ vector<dubl> MatrixProf::Direct()
 	return bufer;
 }
 
-void MatrixProf::Reverse(vector<real> F, vector<real> *X)
+vector<dubl> MatrixProf::Reverse(vector<dubl> F)
 {
-	vector<real> bufer(n);
+	vector<dubl> bufer(n);
 	bufer = F;
 	for(int i = n - 1; i > 0; i--)
 	{
 		int j = i - (ia[i+1]-ia[i]);
-		for (int k = ia[i]; ia[i] < ia[i+1]; k++, j++)
+		for (int k = ia[i]; k < ia[i+1]; k++, j++)
 		{
 			bufer[j] -= bufer[i]*au[k];
 		}
 	}
-	*X = bufer;
+	return bufer;
 }
 
+vector <dubl> MatrixProf::SLAU()
+{
+	vector<dubl> buf(n);
+	LUDec();
+	buf = Direct();
+	buf = Reverse(buf);
+	return buf;
+}
