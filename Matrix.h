@@ -10,9 +10,10 @@
 #include <iostream>
 using namespace std;
 
+class MatrixProf;
 
 typedef float real;
-typedef double dubl;
+typedef float dubl;
 
 class Matrix
 {
@@ -22,13 +23,15 @@ private:
 	vector< vector<real> > matrix;
 	vector<real> F;
 public:
+	Matrix(int x, ifstream &vect);
 	Matrix(int x);
 	Matrix(void);
 	~Matrix(void);
 	void getCol();
 	void setMatrix(vector< vector<real> > A, int x, vector<real> B);
 	void ToProf(MatrixProf *A);
-	vector<real> Gauss(vector<real> B);
+	vector<dubl> Gauss();
+	vector<real> GoodGauss();
 	void Gilbert();
 };
 
@@ -54,6 +57,7 @@ public:
 	vector<dubl> Reverse(vector<dubl> F);
 	void ToTight(Matrix *A);
 	vector<dubl> SLAU();
+	void setProf(int bn, int bcol, vector<real> bdi, vector<int> bia, vector<real> bal, vector<real> bau, vector<real> bF);
 };
 
 

@@ -133,3 +133,19 @@ vector <dubl> MatrixProf::SLAU()
 	buf = Reverse(buf);
 	return buf;
 }
+
+void MatrixProf::setProf(int bn, int bcol, vector<real> bdi, vector<int> bia, vector<real> bal, vector<real> bau, vector<real> bF)
+{
+	di.resize(bn);
+	ia.resize(bn+1);
+	al.resize(bcol);
+	au.resize(bcol);
+	F.resize(bn);
+	n = bn;
+	col = bcol;
+	di = bdi;
+	ia = bia;
+	al = bal;
+	au = bau;
+	F = bF;
+}

@@ -40,5 +40,11 @@
     <Text Include="vector.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="prof.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="tight.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

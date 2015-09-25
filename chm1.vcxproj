@@ -87,7 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="matrix.txt" />
+    <Text Include="prof.txt" />
     <Text Include="size.txt" />
+    <Text Include="tight.txt" />
     <Text Include="vector.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
